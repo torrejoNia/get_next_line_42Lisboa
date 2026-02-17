@@ -6,7 +6,7 @@
 /*   By: esnavarr <esnavarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:14:46 by esnavarr          #+#    #+#             */
-/*   Updated: 2026/01/13 11:14:47 by esnavarr         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:57:00 by esnavarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-//	MAX_FILES_OPENED is the locked-in-memory size
-//	obtained through the command "ulimit -a"
 # ifndef MAX_FILES_OPENED
 #  define MAX_FILES_OPENED 65536
 # endif
 
-//	Value can be changed at compile time
-//	by adding "-D BUFFER_SIZE=n" to the compiler call
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif

@@ -6,28 +6,23 @@
 /*   By: esnavarr <esnavarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:14:38 by esnavarr          #+#    #+#             */
-/*   Updated: 2026/01/13 11:14:42 by esnavarr         ###   ########.fr       */
+/*   Updated: 2026/01/14 15:03:07 by esnavarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include    "get_next_line_bonus.h"
-
-//	fills 'n' bytes of a memory area 's'
-//	with null characters.
+#include "get_next_line_bonus.h"
 
 void	ft_bzero(void *s, size_t n)
 {
-	size_t	i;
+	unsigned char	*a;
 
-	i = 0;
-	while (i < n)
+	a = (unsigned char *)s;
+	while (n > 0)
 	{
-		*((unsigned char *)s + i) = '\0';
-		i++;
+		*(a++) = 0;
+		n--;
 	}
 }
-
-//	Calculates the lenght of a string 'str'
 
 size_t	ft_strlen(const char *str)
 {
@@ -40,10 +35,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
-//	Function that searches for a character 'c'
-//	in a string 's' and returns a pointer to
-//	that character
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -59,9 +50,6 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
-
-//	Function that takes 2 strings, 's1' and 's2',
-//	and joins them together in a new string 'str'
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

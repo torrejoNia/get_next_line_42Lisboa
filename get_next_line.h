@@ -6,7 +6,7 @@
 /*   By: esnavarr <esnavarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:13:55 by esnavarr          #+#    #+#             */
-/*   Updated: 2026/01/13 11:14:04 by esnavarr         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:01:19 by esnavarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-//	Value can be changed at compile time
-//	by adding "-D BUFFER_SIZE=n" to the compiler call
+# ifndef MAX_FILES_OPENED
+#  define MAX_FILES_OPENED 65536
+# endif
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif

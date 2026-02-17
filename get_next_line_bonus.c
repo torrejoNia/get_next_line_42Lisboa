@@ -6,14 +6,11 @@
 /*   By: esnavarr <esnavarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:14:55 by esnavarr          #+#    #+#             */
-/*   Updated: 2026/01/13 11:14:58 by esnavarr         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:26:41 by esnavarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-//	function that reads the file, 
-//	stores the str in the buffer and joins it to the stash
 
 static int	read_buffer(int fd, char **stash, char *buffer)
 {
@@ -35,9 +32,6 @@ static int	read_buffer(int fd, char **stash, char *buffer)
 	*stash = tmp;
 	return (bytes);
 }
-
-//	Removes the string obtained in get_result()
-//	from the stash.
 
 static void	remove_result(char **stash)
 {
@@ -68,8 +62,6 @@ static void	remove_result(char **stash)
 	}
 }
 
-//	Takes the string to return from the stash
-
 static void	get_result(char **stash, char **result)
 {
 	char	*nl;
@@ -79,7 +71,7 @@ static void	get_result(char **stash, char **result)
 	nl = ft_strchr(*stash, '\n');
 	len = ft_strlen(*stash) - ft_strlen(nl) + 2;
 	*result = (char *)malloc(len * sizeof(char));
-	if (!result)
+	if (!*result)
 		return ;
 	i = 0;
 	while (i < len - 1)
@@ -90,11 +82,6 @@ static void	get_result(char **stash, char **result)
 	(*result)[i] = '\0';
 }
 
-//	 This time we needed to use a char pointer array
-//	 to store the progress of read() in multiple files
-//	 MAX_FILES_OPENED is the locked-in-memory size
-//	 obtained through the command "ulimit -a"
-
 char	*get_next_line(int fd)
 {
 	static char	*stash[MAX_FILES_OPENED];
@@ -102,12 +89,13 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	int			bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FILES_OPENED || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
 	bytes = 1;
-	while (ft_strchr(stash[fd], '\n') == NULL
-		&& bytes > 0)
+	while (ft_strchr(stash[fd], '\n') == NULL && bytes > 0)
 		bytes = read_buffer(fd, &(stash[fd]), buffer);
 	free(buffer);
 	if (bytes == -1)
@@ -118,3 +106,47 @@ char	*get_next_line(int fd)
 	remove_result(&(stash[fd]));
 	return (result);
 }
+
+/*
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fd1 = open("test.txt", O_RDONLY);
+    int fd2 = open("test2.txt", O_RDONLY);
+    char *line1;
+    char *line2;
+
+    if (fd1 < 0 || fd2 < 0)
+    {
+        perror("open failed");
+        return 1;
+    }
+
+    // Read alternately from both files
+    while (1)
+    {
+        line1 = get_next_line(fd1);
+        line2 = get_next_line(fd2);
+
+        if (!line1 && !line2)
+            break; // both files finished
+
+        if (line1)
+        {
+            printf("fd1: %s", line1);
+            free(line1);
+        }
+
+        if (line2)
+        {
+            printf("fd2: %s", line2);
+            free(line2);
+        }
+    }
+
+    close(fd1);
+    close(fd2);
+    return 0;
+} */
